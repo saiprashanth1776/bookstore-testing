@@ -31,7 +31,8 @@ export const BookEntry = ()  => {
             textTransform: 'uppercase', textDecoration: 'none', background: '#581845', padding: '10px', borderRadius: '5px',
             display: 'inline-block', border: 'none', transition: "all 0.4s ease 0s", fontFamily: "Acme", paddingRight: "35px", 
             paddingLeft: "35px", fontSize: "25px", margin: "10px"}} 
-        onClick= {async () => {
+        onClick= {async (e) => {
+          e.preventDefault()
           const book = {title};
           const response = await fetch("/input_book", {
             method: "POST",
