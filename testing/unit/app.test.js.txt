@@ -1,0 +1,69 @@
+import { shallow, configure, render } from 'enzyme';
+import Recommendation from './Recommendation';
+import React from 'react';
+import Adapter from 'enzyme-adapter-react-16';
+import { BookEntry } from './BookEntry';
+import SearchArea from './SearchArea';
+import Header from './Header';
+import BookCard from './BookCard';
+import Books from './Books';
+
+configure({ adapter: new Adapter() });
+
+describe('< Recommendation />', () => {
+    it('test_recommendation_rendered_ok', () => {
+        const rec = shallow(<Recommendation/>);
+        expect(rec.find('BookEntry').length).toBe(1);
+    });
+});
+
+describe('< BookEntry />', () => {
+    it('test_bookentry_structure_output', () => {
+        const book = render(<BookEntry/>);
+        const expectedOutput = '<p>  <a href></a></p><p>  <a href></a></p><p>  <a href></a></p><p>  <a href></a></p><p>  <a href></a></p>';
+        const realOutput = book.find('div').html();
+        expect(realOutput.indexOf(expectedOutput) > -1).toBeTruthy();
+    });
+
+    it('test_bookentry_structure_form', () => {
+        const book = render(<BookEntry/>);
+        const expectedOutput = RegExp('<input\ .*><button\ .*>Search</button>');
+        const realOutput = book.find('form').html();
+        expect(expectedOutput.test(realOutput)).toBe(true);
+    })
+});
+
+describe('< Header />', () => {
+    it('test_header_rendered_ok', () => {
+        const rec = render(< Header />);
+        const expectedOutput = RegExp('<div .*><p\ .*></div><ul\ .*><li>.*</li><li>.*</li><li>.*</li></ul>')
+        const realOutput = rec.find('div').html();
+        expect(expectedOutput.test(realOutput)).toBeTruthy();
+    });
+});
+
+describe('< SearchArea />', () => {
+    it('test_search_area_rendered_ok', () => {
+        const rec = render(< SearchArea />);
+        const expectedOutput = RegExp('<input\ .*><button\ .*>Search</button><select\ .*><option\ .*>Sort</option><option\ .*>New</option><option\ .*>Old</option></select>')
+        const realOutput = rec.find('form').html();
+        expect(expectedOutput.test(realOutput)).toBeTruthy();
+    });
+});
+
+describe('< BookCard />', () => {
+    it('test_search_area_rendered_ok', () => {
+        const rec = render(< BookCard />);
+        const expectedOutput = RegExp('<img\ .*><div\ .*><h3>.*</h3><h4>Authors:\ .*</h4><h5>Published:\ .*</h5><a\ .*>View Here</a></div>')
+        const realOutput = rec.html();
+        expect(expectedOutput.test(realOutput)).toBeTruthy();
+    });
+});
+
+describe('< Books />', () => {
+    it('test_recommendation_rendered_ok', () => {
+        const rec = shallow(< Books />);
+        expect(rec.find('SearchArea').length).toBe(1);
+        expect(rec.find('ListBooks').length).toBe(1);
+    });
+});
